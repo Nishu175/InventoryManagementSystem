@@ -13,9 +13,10 @@ spring.data.mongodb.database=inventoryDB
 Pls setup and run mongo server before starting the application using above mongo config
 Clone Git Repo in your local system using below Git command - 
 
+git clone https://github.com/Nishu175/InventoryManagementSystem.git
 **Git Branch Name which you need to check out- "main"**
 
-git clone https://github.com/Nishu175/InventoryManagementSystem.git
+You can also download source code in zip format and import project after unzipping it if face any issue while cloning.
 
 This is spring boot application based on Maven.
 
