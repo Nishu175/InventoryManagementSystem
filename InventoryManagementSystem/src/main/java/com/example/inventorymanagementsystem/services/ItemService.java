@@ -14,16 +14,16 @@ public class ItemService {
     private ItemRepository itemRepository;
 
     public Item createNewItem(@NonNull Item item){
-        item.setItemId((int)(System.currentTimeMillis()/1000L));
+        item.setItemId(System.currentTimeMillis());
         return itemRepository.save(item);
     }
 
-    public Item getItem(int itemId){
+    public Item getItem(long itemId){
        return itemRepository.findById(itemId).get();
     }
 
 
-    public synchronized boolean increaseItems(int itemId,int productId,int itemsToBeAdded){
+    public synchronized boolean increaseItems(long itemId,int productId,int itemsToBeAdded){
 
         /**
          * we can use here $inc operator
@@ -38,7 +38,7 @@ public class ItemService {
         return true;
     }
 
-    public synchronized boolean decreaseItems(int itemId,int productId,int itemsToBeRemoved){
+    public synchronized boolean decreaseItems(long itemId,int productId,int itemsToBeRemoved){
         Item item = itemRepository.findByItemIdAndProductId(itemId,productId).orElseThrow(()->new InventoryNotFoundException("no item found"));
 
         /**

@@ -15,7 +15,7 @@ public class Item {
     public static final int MAX_ITEMS_ALLOWED_IN_GRAM = 1000000;  //(1000 KG capacity)
 
     @Id
-    private int itemId;
+    private long itemId;
     private String itemName;
     private String itemDescription;
     private int productId;

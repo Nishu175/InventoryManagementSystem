@@ -2,6 +2,7 @@ package com.example.inventorymanagementsystem.controllers;
 
 import com.example.inventorymanagementsystem.models.Inventory;
 import com.example.inventorymanagementsystem.requests.ProductItemRequest;
+import com.example.inventorymanagementsystem.response.ProductItemResponse;
 import com.example.inventorymanagementsystem.services.InventoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,19 +33,18 @@ public class InventoryController {
     }
 
     @PostMapping("/{invId}/products")
-    public String addNewProductWithItems(@RequestBody ProductItemRequest productItemRequest,@PathVariable int invId){
-        inventoryService.addProductWithItems(productItemRequest,invId);
-        return "product added";
+    public ProductItemResponse addNewProductWithItems(@RequestBody ProductItemRequest productItemRequest, @PathVariable int invId){
+        return inventoryService.addProductWithItems(productItemRequest,invId);
     }
 
     @PutMapping("/{invId}/products/{productId}/items/{itemId}/add")
-    public String addItemsQuantityToExistingProduct(@PathVariable int invId, @PathVariable int productId, @PathVariable int itemId, @RequestParam int quantityToBeAdded){
+    public String addItemsQuantityToExistingProduct(@PathVariable int invId, @PathVariable int productId, @PathVariable long itemId, @RequestParam int quantityToBeAdded){
         inventoryService.addItemsQuantityToExistingProduct(invId,productId,itemId,quantityToBeAdded);
         return "item added";
     }
 
     @PutMapping("/{invId}/products/{productId}/items/{itemId}/remove")
-    public String removeItemsQuantityToExistingProduct(@PathVariable int invId, @PathVariable int productId, @PathVariable int itemId, @RequestParam int quantityToBeRemoved){
+    public String removeItemsQuantityToExistingProduct(@PathVariable int invId, @PathVariable int productId, @PathVariable long itemId, @RequestParam int quantityToBeRemoved){
         inventoryService.removeItemsQuantityToExistingProduct(invId,productId,itemId,quantityToBeRemoved);
         return "item removed";
     }

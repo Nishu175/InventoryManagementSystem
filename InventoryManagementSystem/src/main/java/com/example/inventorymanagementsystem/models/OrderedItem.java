@@ -9,7 +9,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class OrderedItem {
     private int id;
     private int orderId;
-    private int itemId;
+    private long itemId;
     private int quantityInGram;
     private int pricePerGram;
 }

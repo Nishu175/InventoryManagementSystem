@@ -8,7 +8,11 @@ import com.example.inventorymanagementsystem.models.Item;
 import com.example.inventorymanagementsystem.models.Product;
 import com.example.inventorymanagementsystem.repositories.InventoryRepository;
 import com.example.inventorymanagementsystem.requests.ProductItemRequest;
+
+import java.util.ArrayList;
 import java.util.List;
+
+import com.example.inventorymanagementsystem.response.ProductItemResponse;
 import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -62,7 +66,7 @@ public class InventoryService {
 
      * @return
      */
-    public void addProductWithItems(@NonNull ProductItemRequest productItemRequest,int inventoryId) {
+    public ProductItemResponse addProductWithItems(@NonNull ProductItemRequest productItemRequest,int inventoryId) {
         Inventory inventory = inventoryRepository.findById(inventoryId).orElseThrow(()-> new InventoryNotFoundException("No inv found"));
 
         Product product = productItemRequest.getProduct();
@@ -75,10 +79,13 @@ public class InventoryService {
         if(productId == 0){
             product = productService.addNewProduct(product);
         }
+        ProductItemResponse productItemResponse = new ProductItemResponse();
+        productItemResponse.setProduct(product);
+        List<Item> addedItems = new ArrayList<>();
         int i = 0;
         for(Item item : items){
             i+=item.getQuantityInGram();
-            int itemId = item.getItemId();
+            long itemId = item.getItemId();
             item.setProductId(product.getProductId());
 
             if(i> Item.MAX_ITEMS_ALLOWED_IN_GRAM){
@@ -87,10 +94,12 @@ public class InventoryService {
 
             // new items,
             if(itemId == 0){
-                itemService.createNewItem(item);
+                addedItems.add(itemService.createNewItem(item));
             }
         }
         inventoryProductService.addProductIntoInventoryIfNotExists(inventory.getInventoryId(),product.getProductId());
+        productItemResponse.setItems(addedItems);
+        return productItemResponse;
     }
 
    // @Transactional
@@ -102,7 +111,7 @@ public class InventoryService {
 
      * @return
      */
-    public void addItemsQuantityToExistingProduct(int invId, int productId, int itemId,int quantityToBeAdded) {
+    public void addItemsQuantityToExistingProduct(int invId, int productId, long itemId,int quantityToBeAdded) {
         Inventory inventory = inventoryRepository.findById(invId).orElseThrow(()-> new InventoryNotFoundException("No inv found"));
 
         boolean productExists = productService.isProductExists(productId);
@@ -124,7 +133,7 @@ public class InventoryService {
 
      * @return
      */
-    public void removeItemsQuantityToExistingProduct(int invId, int productId, int itemId,int quantityToBeRemoved) {
+    public void removeItemsQuantityToExistingProduct(int invId, int productId, long itemId,int quantityToBeRemoved) {
         Inventory inventory = inventoryRepository.findById(invId).orElseThrow(()-> new InventoryNotFoundException("No inv found"));
 
         boolean productExists = productService.isProductExists(productId);
