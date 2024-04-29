@@ -14,6 +14,11 @@ spring.data.mongodb.database=inventoryDB
 
 Pls setup and run mongo server before starting the application
 
+This is spring boot application.
+
+Run application from main class - 
+com.example.inventorymanagementsystem.InventoryManagementSystemApplication
+
 
 
 1- create supplier using admin options
