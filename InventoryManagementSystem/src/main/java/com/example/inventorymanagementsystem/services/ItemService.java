@@ -14,7 +14,7 @@ public class ItemService {
     private ItemRepository itemRepository;
 
     public Item createNewItem(@NonNull Item item){
-        item.setItemId(System.currentTimeMillis());
+        item.setItemId(System.currentTimeMillis()) ;
         return itemRepository.save(item);
     }
 
