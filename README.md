@@ -5,19 +5,32 @@
 
 Mongo config - 
 
-server.port = 8080
+application.properties
 
+server.port = 8080
 spring.data.mongodb.host=localhost
 spring.data.mongodb.port=27017
 spring.data.mongodb.database=inventoryDB
 
 
-Pls setup and run mongo server before starting the application
+Pls setup and run mongo server before starting the application using above mongo config
+Clone Git Repo in your local system using below Git command - 
 
-This is spring boot application.
+git clone https://github.com/Nishu175/InventoryManagementSystem.git
 
-Run application from main class - 
+This is spring boot application based on Maven.
+
+Import project as Maven project or open directly and add as maven project after right clicking on pom.xml
+    Pom.xml -> Right Click -> Add as Maven project
+mvn clean
+mvn package
+
+Run application from main class -
 com.example.inventorymanagementsystem.InventoryManagementSystemApplication
+
+
+
+
 
 
 
