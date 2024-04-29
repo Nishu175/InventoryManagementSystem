@@ -1,8 +1,5 @@
 # InventoryManagementSystem
 
-
-
-
 Mongo config - 
 
 application.properties
@@ -88,21 +85,17 @@ Response -
 curl --location --request POST 'http://localhost:8080/inventory' \
 --header 'Content-Type: application/json' \
 --header 'Cookie: WSESSIONID=GDTVI8JizNLVgpcc8t%5Q2bCB613j84YvrpvLsb8bVOkWduhCTl%2c2TpBEm7BXbzoCaKpJ2GvIESxxOAm5iWJF74djFPGpuuoG8hx2BF97U1uAzfkuc6HWvq91uQqqSH5jOsTjEdeBNXLLdakdEhO8kz%7f3EJDus' \
---data-raw '{
-    "inventoryName" : "myInv",
-    "supplierId":1714362645,
-    "pincode":123
-}'
+--data-raw '{ "inventoryName" : "MaladInv", "supplierId":1714405371, "pincode":400010 }'
 
 
-Respnse - 
+Response - 
 
 {
-    "inventoryId": 1714363155,
-    "inventoryName": "myInv",
-    "createdAt": 1714363155434,
-    "supplierId": 1714362645,
-    "pincode": 123
+    "inventoryId": 1714407141,
+    "inventoryName": "MaladInv",
+    "createdAt": 1714407141475,
+    "supplierId": 1714405372,
+    "pincode": 400010
 }
 
 
@@ -112,59 +105,89 @@ curl --location --request POST 'http://localhost:8080/category' \
 --header 'Content-Type: application/json' \
 --header 'Cookie: WSESSIONID=GDTVI8JizNLVgpcc8t%5Q2bCB613j84YvrpvLsb8bVOkWduhCTl%2c2TpBEm7BXbzoCaKpJ2GvIESxxOAm5iWJF74djFPGpuuoG8hx2BF97U1uAzfkuc6HWvq91uQqqSH5jOsTjEdeBNXLLdakdEhO8kz%7f3EJDus' \
 --data-raw '{
-    "categoryName" : "Electornos",
-    "categoryDescription":"Electornos Electornos"
+    "categoryName" : "seaFood",
+    "categoryDescription":"All seaFood"
 }'
 
 Response - 
 
 {
-    "categoryId": 1714362993,
-    "categoryName": "Electornos",
-    "categoryDescription": "Electornos Electornos"
+    "categoryId": 1714407283,
+    "categoryName": "seaFood",
+    "categoryDescription": "All seaFood"
 }
 
 5 - Add Product with items into above inventory - 
 
 
-curl --location --request POST 'http://localhost:8080/inventory/1714363155/products' \
+curl --location --request POST 'http://localhost:8080/inventory/1714407141/products' \
 --header 'Content-Type: application/json' \
 --header 'Cookie: WSESSIONID=GDTVI8JizNLVgpcc8t%5Q2bCB613j84YvrpvLsb8bVOkWduhCTl%2c2TpBEm7BXbzoCaKpJ2GvIESxxOAm5iWJF74djFPGpuuoG8hx2BF97U1uAzfkuc6HWvq91uQqqSH5jOsTjEdeBNXLLdakdEhO8kz%7f3EJDus' \
 --data-raw '{
     "product": {
-        "productName": "Samsumng ss",
-        "productDescription": "new Samsumng 12",
-        "categoryId": 1714362993
+        "productName": "prawn",
+        "productDescription": "juicy and tasty",
+        "categoryId": 1714407283
     },
     "items": [
         {
-            "itemName": "s5",
-            "itemDescription": "s1 des",
+            "itemName": "small prawns",
+            "itemDescription": "10-12 pieces",
             "unitPriceInINR": 12,
-            "quantityInGram": 10
+            "quantityInGram": 100
         },
         {
-            "itemName": "s6",
-            "itemDescription": "s2 des",
-            "unitPriceInINR": 12,
-            "quantityInGram": 20
+            "itemName": "large prawn",
+            "itemDescription": "10-12 pieces",
+            "unitPriceInINR": 15,
+            "quantityInGram": 200
         }
     ]
 }'
 
+Response -
+
+{
+    "product": {
+        "productId": 1714410088,
+        "productName": "prawn",
+        "productDescription": "juicy and tasty",
+        "categoryId": 1714407283
+    },
+    "items": [
+        {
+            "itemId": 1714410088194,
+            "itemName": "small prawns",
+            "itemDescription": "10-12 pieces",
+            "productId": 1714410088,
+            "unitPriceInINR": 12.0,
+            "quantityInGram": 100
+        },
+        {
+            "itemId": 1714410088201,
+            "itemName": "large prawn",
+            "itemDescription": "10-12 pieces",
+            "productId": 1714410088,
+            "unitPriceInINR": 15.0,
+            "quantityInGram": 200
+        }
+    ]
+}
+
 
 6 - Add items quantity ,given inventoryId,productId and itemId
+for every Item max quantity is fixed 1000 KG
 
-curl --location --request PUT 'http://localhost:8080/inventory/1714363155/products/1714363218/items/1714363218/add?quantityToBeAdded=12' \
+curl --location --request PUT 'http://localhost:8080/inventory/1714407141/products/1714410088/items/1714410088194/add?quantityToBeAdded=12' \
 --header 'Cookie: WSESSIONID=GDTVI8JizNLVgpcc8t%5Q2bCB613j84YvrpvLsb8bVOkWduhCTl%2c2TpBEm7BXbzoCaKpJ2GvIESxxOAm5iWJF74djFPGpuuoG8hx2BF97U1uAzfkuc6HWvq91uQqqSH5jOsTjEdeBNXLLdakdEhO8kz%7f3EJDus' \
 --data-raw ''
 
 curl --location --request PUT 'http://localhost:8080/inventory/{invId}/products/{productId}/items/{itemId}/add?quantityToBeAdded=12'
 
 
-7 - Remove items quantity ,,given inventoryId,productId and itemId
+7 - Remove items quantity ,given inventoryId,productId and itemId
 
-curl --location --request PUT 'http://localhost:8080/inventory/1714363155/products/1714363218/items/1714363218/remove?quantityToBeRemoved=12' \
+curl --location --request PUT 'http://localhost:8080/inventory/1714407141/products/1714410088/items/1714410088194/remove?quantityToBeRemoved=12' \
 --header 'Cookie: WSESSIONID=GDTVI8JizNLVgpcc8t%5Q2bCB613j84YvrpvLsb8bVOkWduhCTl%2c2TpBEm7BXbzoCaKpJ2GvIESxxOAm5iWJF74djFPGpuuoG8hx2BF97U1uAzfkuc6HWvq91uQqqSH5jOsTjEdeBNXLLdakdEhO8kz%7f3EJDus' \
 --data-raw ''
 
@@ -178,31 +201,45 @@ curl --location --request POST 'http://localhost:8080/orders' \
 --header 'Cookie: WSESSIONID=GDTVI8JizNLVgpcc8t%5Q2bCB613j84YvrpvLsb8bVOkWduhCTl%2c2TpBEm7BXbzoCaKpJ2GvIESxxOAm5iWJF74djFPGpuuoG8hx2BF97U1uAzfkuc6HWvq91uQqqSH5jOsTjEdeBNXLLdakdEhO8kz%7f3EJDus' \
 --data-raw '{
     "order": {
-        "shippedToPincode": 123,
-        "orderedBy": 123
+        "shippedToPincode": 400010,
+        "orderedBy": 1714405564
     },
     "items": [
         {
-            "itemId": 1714357644,
-            "productId":1714357566,
+            "itemId": 1714410088194,
+            "productId":1714410088,
             "unitPriceInINR": 121,
             "quantityInGram": 10
         }
     ]
 }'
 
+response -
+{
+    "orderId": 1714410824,
+    "orderedTs": 1714410824914,
+    "lastUpdatedTs": 0,
+    "orderedBy": 1714405564,
+    "transactionType": 1,
+    "orderStatus": 0,
+    "shippedToPincode": 400010
+}
+
 
 9 - Return a item from an order
 
-curl --location --request POST 'http://localhost:8080/orders/1714361863/return' \
+curl --location --request POST 'http://localhost:8080/orders/1714410824/return' \
 --header 'Content-Type: application/json' \
 --header 'Cookie: WSESSIONID=GDTVI8JizNLVgpcc8t%5Q2bCB613j84YvrpvLsb8bVOkWduhCTl%2c2TpBEm7BXbzoCaKpJ2GvIESxxOAm5iWJF74djFPGpuuoG8hx2BF97U1uAzfkuc6HWvq91uQqqSH5jOsTjEdeBNXLLdakdEhO8kz%7f3EJDus' \
 --data-raw '{
-    "itemId": 1714357644,
-    "orderId":1714361863,
-    "productId": 1714357566,
+    "itemId": 1714410088194,
+    "orderId":1714410824,
+    "productId": 1714410088,
     "quantityInGram": 10
 }'
+
+response -
+return placed of given items
 
 Info:- SQL will more sutable database for this, because of relation between database, but I am using company's laptop in which I cannot install it. Hence I moved forward with mongo only.
 
